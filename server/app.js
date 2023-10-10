@@ -2,14 +2,22 @@ const express = require("express");
 // const mongoose = require("mongoose");
 const morgan = require("morgan");
 require("dotenv").config();
+const cors = require("cors");
+
+const usersRoute = require("./routes/usersRoute");
+const authRoute = require("./routes/authRoute");
 
 const connectDB = require("./DB/db");
 const app = express();
+app.use(cors());
+
 app.use(morgan("dev"));
 app.use(express.json());
 
 const PORT = 3000;
 
+app.use("/api/users", usersRoute);
+app.use("/api/auth", authRoute);
 // const connectDB = async () => {
 //   try {
 //     await mongoose.connect(
@@ -24,9 +32,9 @@ const PORT = 3000;
 //   }
 // };
 
-app.get("/", (req, res) => {
-  res.send("Hello Wordl");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello Wordl");
+// });
 app.get("*", (req, res) => {
   res.status(404).send("<h1>404 Not found</h1>");
 });
